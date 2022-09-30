@@ -1,0 +1,77 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>A Basic HTML5 Template</title>
+  <meta name="description" content="A simple HTML5 Template for new projects.">
+  <meta name="author" content="SitePoint">
+
+  <meta property="og:title" content="Tabulator Playground">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+  <meta property="og:description" content="A simple HTML5 Template for new projects.">
+  <meta property="og:image" content="image.png">
+
+  <link href="https://unpkg.com/tabulator-tables@5.3.4/dist/css/tabulator.min.css" rel="stylesheet">
+ <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.3.4/dist/js/tabulator.min.js"></script>
+</head>
+
+<body>
+
+  <h1>Tabulator Playground</h1>
+  <div>
+    <div>
+      <button onclick="resetWidths()">Reset Widths</button>
+      <button onclick="setWidths()">Set to 200px</button>
+    </div>
+    <div id="tabulator"></div>
+  </div>
+
+<script>
+
+  const data = [
+    { "film_id": 1, "title": "ACADEMY DINOSAUR", "description": "A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies", "release_year": 2006, "language_id": 1, "original_language_id": null, "rental_duration": 6, "rental_rate": "0.99", "length": 86, "replacement_cost": "20.99", "rating": "PG", "last_update": "2006-02-15 05:03:42", "special_features": { "0": "Deleted Scenes", "1": "Behind the Scenes" }, "fulltext": "'academi':1 'battl':15 'canadian':20 'dinosaur':2 'drama':5 'epic':4 'feminist':8 'mad':11 'must':14 'rocki':21 'scientist':12 'teacher':17" },
+    { "film_id": 2, "title": "ACE GOLDFINGER", "description": "A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China", "release_year": 2006, "language_id": 1, "original_language_id": null, "rental_duration": 3, "rental_rate": "4.99", "length": 48, "replacement_cost": "12.99", "rating": "G", "last_update": "2006-02-15 05:03:42", "special_features": { "0": "Trailers", "1": "Deleted Scenes" }, "fulltext": "'ace':1 'administr':9 'ancient':19 'astound':4 'car':17 'china':20 'databas':8 'epistl':5 'explor':12 'find':15 'goldfing':2 'must':14" },
+    { "film_id": 3, "title": "ADAPTATION HOLES", "description": "A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Balloon Factory", "release_year": 2006, "language_id": 1, "original_language_id": null, "rental_duration": 7, "rental_rate": "2.99", "length": 50, "replacement_cost": "18.99", "rating": "NC-17", "last_update": "2006-02-15 05:03:42", "special_features": { "0": "Trailers", "1": "Deleted Scenes" }, "fulltext": "'adapt':1 'astound':4 'balloon':19 'car':11 'factori':20 'hole':2 'lumberjack':8,16 'must':13 'reflect':5 'sink':14" },
+    { "film_id": 4, "title": "AFFAIR PREJUDICE", "description": "A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank", "release_year": 2006, "language_id": 1, "original_language_id": null, "rental_duration": 5, "rental_rate": "2.99", "length": 117, "replacement_cost": "26.99", "rating": "G", "last_update": "2006-02-15 05:03:42", "special_features": { "0": "Commentaries", "1": "Behind the Scenes" }, "fulltext": "'affair':1 'chase':14 'documentari':5 'fanci':4 'frisbe':8 'lumberjack':11 'monkey':16 'must':13 'prejudic':2 'shark':19 'tank':20" },   
+  ]
+
+  const columns = Object.keys(data[0]).map((k) => ({ title: k, field: k, maxInitialWidth: 300}))
+
+  const tabulator = new Tabulator('#tabulator', {
+    height: 400,
+    data,
+    columns,
+    layout: 'fitDataFill',
+    persistence: {
+      sort: false,
+      filter: false,
+      group: false,
+      columns: ['visible', 'width'],
+
+    },
+    persistenceMode: 'local',
+    persistenceID: 'demo-table',
+  })
+
+  function resetWidths() {
+    console.log("resetting widths")
+    tabulator.getColumns().forEach((c) => {
+      c.setWidth(true)
+    })
+  }
+
+  function setWidths() {
+    console.log("setting to 200")
+    tabulator.getColumns().forEach((c) => {
+      c.setWidth(200);
+    })
+  }
+
+</script>
+
+</body>
+</html>

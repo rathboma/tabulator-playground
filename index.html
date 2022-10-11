@@ -15,8 +15,10 @@
   <meta property="og:description" content="A simple HTML5 Template for new projects.">
   <meta property="og:image" content="image.png">
 
-  <link href="https://unpkg.com/tabulator-tables@5.3.4/dist/css/tabulator.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/tabulator-tables@5.4.1/dist/css/tabulator.min.css" rel="stylesheet">
  <script type="text/javascript" src="/tabulator.js"></script>
+ <script type="text/javascript" src="/lodash.js"></script>
+
  <script type="text/javascript" src="/table_data.js"></script>
 </head>
 
@@ -37,14 +39,25 @@
 
   const columns = Object.keys(data[0]).map((k) => ({ title: k, field: k, maxInitialWidth: 300, maxWidth: 1000}))
 
+  const req = async (url, config, params) => {
+    console.log('req', params)
+    if (params.sort) {
+      return { data: _.sortBy(data, params.sort), last_page: 1 }
+    }
+    return { data, last_page: 1 }
+  }
+
   const tabulator = new Tabulator('#tabulator', {
     height: 600,
-    data,
     columns,
     layout: 'fitDataFill',
     renderHorizontal: 'virtual',
     pagination: true,
     paginationSize: 100,
+    paginationMode: 'remote',
+    sortMode: 'remote',
+    ajaxURL: 'http://fake.com',
+    ajaxRequestFunc: req,
     persistence: {
       sort: false,
       filter: false,
@@ -53,7 +66,7 @@
 
     },
     persistenceMode: 'local',
-    persistenceID: 'demo-table',
+    persistenceID: 'demo-table-456',
   })
 
   function resetWidths() {
